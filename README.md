@@ -1,4 +1,4 @@
-# Learn Track API Documentation (v1.0)
+# Learn Track API Documentation (v1.1)
 
 Dokumentasi ini merinci _endpoint_ API untuk layanan _backend_ Learn Track.
 
@@ -199,5 +199,42 @@ Mengambil data detail untuk satu _enrollment_ (satu _course_ spesifik). Ini meng
   ```json
   {
     "error": "Enrollment not found or you do not have access."
+  }
+  ```
+
+### `GET /api/progress/tutorials/:tutorialId`
+
+memperbarui status modul (misalnya, dari not_started menjadi completed) dan mengembalikan persentase progres course yang baru.
+
+- **Authentication:** `Protected`
+
+- **URL Parameters:**
+
+  - `:tutorialId` (string, UUID): ID unik course yang didapatkan dari GET /api/dashboard/:enrollmentId. Dari respons JSON, salin tutorial_id dari salah satu modul yang statusnya 'not_started'.
+
+- **Request Body:**
+
+  ```json
+  {
+    "status": "complated"
+  }
+  ```
+
+- **Success Response:** `200 OK`
+
+  ```json
+  {
+    "message": "Progress updated successfully",
+    "tutorial_id": "c53f9fdf-9592-4739-b824-5ffe7485a44d",
+    "new_status": "completed",
+    "new_course_progress": 2.56410256410256
+  }
+  ```
+
+- **Error Response:** `404 Not Found`
+
+  ```json
+  {
+    "error": "Tutorial not found"
   }
   ```
