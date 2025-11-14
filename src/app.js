@@ -1,22 +1,22 @@
-// src/app.js
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
+import { supabase } from "./config/supabase.js";
 
 import authRoutes from "./api/auth/auth.routes.js";
-import { requireAuth } from "./middleware/auth.middleware.js";
 import dashboardRoutes from "./api/dashboard/dashboard.routes.js";
-
-// Impor klien Supabase yang sudah kita buat
-import { supabase } from "./config/supabase.js";
+import progressRoutes from "./api/progress/progress.routes.js";
 
 const app = express();
 
 // Middleware
-app.use(cors()); // Mengizinkan request dari domain frontend
+app.use(cors());
 app.use(express.json());
 
+// === Routes ===
+app.use("/api/auth", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/progress", progressRoutes);
 
 // === TES KONEKSI ===
 app.get("/api/test", async (req, res) => {
@@ -41,8 +41,5 @@ app.get("/api/test", async (req, res) => {
     });
   }
 });
-
-// Auth routes
-app.use("/api/auth", authRoutes);
 
 export default app;
