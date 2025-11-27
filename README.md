@@ -1,4 +1,4 @@
-# Learn Track API Documentation (v1.1)
+# Learn Track API Documentation (v1.2)
 
 Dokumentasi ini merinci _endpoint_ API untuk layanan _backend_ Learn Track.
 
@@ -112,7 +112,7 @@ _Endpoint_ yang terkait dengan _dashboard_ progres belajar pengguna.
 
 ### `GET /api/dashboard`
 
-Mengambil data _dashboard_ utama untuk pengguna yang terautentikasi. Ini mengembalikan daftar semua _course_ yang sedang diikuti (_enrollments_) beserta persentase progres totalnya.
+Mengambil data dashboard yang dikelompokkan berdasarkan Learning Path. Endpoint ini hanya mengembalikan Learning Path di mana pengguna memiliki setidaknya satu course yang sedang diikuti. Data mencakup persentase progres rata-rata per path dan detail status untuk setiap course di dalamnya.
 
 - **Authentication:** `Protected`
 
@@ -123,23 +123,50 @@ Mengambil data _dashboard_ utama untuk pengguna yang terautentikasi. Ini mengemb
 - **Success Response:** `200 OK`
 
   ```json
-  {
-    "user": {
-      "name": "jaemin",
-      "email": "jemin123@gmail.com"
-    },
-    "enrollments": [
-      {
-        "enrollment_id": "63fa9c9b-d14a-4621-9dbd-02b41c7c0399",
-        "course": {
-          "course_id": "uuid-course-id",
-          "name": "Belajar Dasar JavaScript",
-          "learning_path": "Web Development"
+  [
+    {
+      "path_id": "uuid-path-android",
+      "path_name": "Android Learning Path",
+      "path_progress_percent": 55,
+      "courses": [
+        {
+          "course_id": "uuid-course-1",
+          "course_name": "Memulai Pemrograman dengan Kotlin",
+          "enrollment_id": "uuid-enrollment-1",
+          "progress_percent": 100,
+          "order": 1
         },
-        "progress_percent": 25.0
-      }
-    ]
-  }
+        {
+          "course_id": "uuid-course-2",
+          "course_name": "Belajar Membuat Aplikasi Android untuk Pemula",
+          "enrollment_id": "uuid-enrollment-2",
+          "progress_percent": 10,
+          "order": 2
+        },
+        {
+          "course_id": "uuid-course-3",
+          "course_name": "Belajar Pengembangan Aplikasi Android Intermediate",
+          "enrollment_id": null,
+          "progress_percent": 0,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "path_id": "uuid-path-web",
+      "path_name": "Web Development Learning Path",
+      "path_progress_percent": 10,
+      "courses": [
+        {
+          "course_id": "uuid-course-4",
+          "course_name": "Belajar Dasar Pemrograman Web",
+          "enrollment_id": "uuid-enrollment-3",
+          "progress_percent": 20,
+          "order": 1
+        }
+      ]
+    }
+  ]
   ```
 
 - **Error Response:** `401 Unauthorized`
